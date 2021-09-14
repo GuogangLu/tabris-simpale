@@ -1,7 +1,7 @@
 const { Button, TextView, contentView } = require('tabris');
 const IServer = require('./xp');
 
-var iserver = new IServer('192.168.0.81', 8000);
+var iserver = new IServer('192.168.10.243', 8000);
 new Button({
   centerX: true, top: 100,
   text: 'Show message'
