@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="GuogangLu.tabris" version="0.1.0">
+<widget id="GuogangLu.tabris" version="0.1.0" xmlns:android="http://schemas.android.com/apk/res/android">
   <name>Tabris</name>
   <description>
     Example Tabris.js App
@@ -8,4 +8,12 @@
     luguogang
   </author>
   <preference name="EnableDeveloperConsole" value="$IS_DEBUG" />
+  <platform name="android">
+    <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
+      <application android:usesCleartextTraffic="true" />
+    </edit-config>
+    <config-file target="AndroidManifest.xml" parent="/manifest">
+      <uses-sdk android:targetSdkVersion="27" />
+    </config-file>
+  </platform>
 </widget>
