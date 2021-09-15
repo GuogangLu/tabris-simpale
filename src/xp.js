@@ -1,5 +1,6 @@
-const { WebSocket } = require('tabris')
-
+if (typeof WebSocket !== 'function') {
+    throw new Error('浏览器不支持WebSocket')
+}
 class Validate {
     constructor(success, message) {
         this.success = success
@@ -119,6 +120,17 @@ class IServer /*extends EventTarget */{
     }
 
     /**
+     * 判断是否为空
+     * @param {any} str 输入
+     */
+    static isNull(str) {
+        let ok = false;
+        if (str === "" || str === null || str === undefined) 
+            ok = true;
+        return ok;
+    }
+
+    /**
      * 判断一个字串是否为智能服务器ID
      * id 智能服务器id
      */
@@ -139,6 +151,52 @@ class IServer /*extends EventTarget */{
         return ok
     }
 
+    /**
+     * 判断一个字串是否为智能服务器ID
+     * ip 智能服务器id
+     */
+    static isId(id) {
+        let ok = false
+        if (typeof id === 'string') {
+            let idl = id.split(':')
+            if (idl.length === 3) {
+                let pid = parseInt(idl[0])
+                let cid = parseInt(idl[1])
+                let did = parseInt(idl[2])
+                if (!isNaN(pid) && !isNaN(cid) && !isNaN(did) &&
+                    pid >= 0 && cid === 0 && did >= 0) {
+                    ok = true
+                }
+            }
+        }
+        return ok
+    }
+
+    /**
+     * 判断一个参数是否为网络地址
+     * @param {string} ip 网络地址
+     */
+    static isIp(ip) {
+        if (typeof ip !== 'string') return false;
+        if (IServer.isNull(ip)) return false;
+        let re = /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/g //匹配IP地址的正则表达式
+        if (re.test(ip)) {
+            if (RegExp.$1 < 256 && RegExp.$2 < 256 && RegExp.$3 < 256 && RegExp.$4 < 256) return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断一个参数是否为网络端口号
+     * @param {number} port 端口号
+     */
+    static isPort(port) {
+        let ok = false;
+        if (isNaN(port) === false && typeof port === 'number' && port > 0 && port < 65536) {
+            ok = true;    
+        }
+        return ok;
+    }
 
     /**
      * 创建到智能服务器的ws连接
@@ -461,7 +519,7 @@ class IServer /*extends EventTarget */{
     * @param {是否需要设备ip存在} idExist true:需要false:不需要
     */
     isDevIP(ip) {
-        if (isIP(ip)) {
+        if (IServer.isIp(ip)) {
             return new Validate(true, "OK")
         } else {
             return new Validate(false, `IP:${ip}格式错误`)
