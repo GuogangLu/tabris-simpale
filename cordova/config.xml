@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="GuogangLu.tabris" version="0.1.0" xmlns:android="http://schemas.android.com/apk/res/android">
-  <name>Tabris</name>
+  <name>测试应用</name> <!--填写应用名称-->
+  <icon src="logo.png"/> <!--填写应用logo-->
+  <splash src="logo.png"/>
   <description>
     Example Tabris.js App
   </description>
@@ -9,11 +11,8 @@
   </author>
   <preference name="EnableDeveloperConsole" value="$IS_DEBUG" />
   <platform name="android">
-    <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
+    <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
       <application android:usesCleartextTraffic="true" />
     </edit-config>
-    <config-file target="AndroidManifest.xml" parent="/manifest">
-      <uses-sdk android:targetSdkVersion="27" />
-    </config-file>
   </platform>
 </widget>
